@@ -32,13 +32,50 @@ public:
 			temp_rec = list_recs.at(i);
 			sublen = temp_rec.find_first_of(" ");
 			start = temp_rec.substr(0, sublen);
+			if (i == 0) {
+				try {
+					if (start[0] == 'S' && start.length() == 1) {
+						//first letter i S, good
+					}
+					else {
+						throw 55;
+					}
+				}
+				catch (int i) {
+					std::cout << "First letter is not S\n";
+
+					break;
+				}
+			}
+			else if (i == list_recs.get_size() - 1) {
+				try {
+					if (finish[0] == 'T' && finish.length() == 1) {
+						//last letter is T, good
+					}
+					else {
+						throw 55;
+					}
+				}
+				catch (int i) {
+					std::cout << "Last letter isn't T\n";
+
+					break;
+				}
+			}
 			temp_rec.erase(0, sublen + 1);
 			sublen = temp_rec.find_first_of(" ");
 			finish = temp_rec.substr(0, sublen);
 			temp_rec.erase(0, sublen + 1);
 			capacity = temp_rec;
 			cap = atoi(capacity.c_str());
-			for (int j = 0; j < list_arcs.get_size(); j++)
+			for (int j = 0; j < list_arcs.get_size(); j++) {
+				try {
+					if ((list_arcs.at(j).start == finish) && (list_arcs.at(j).finish == start))
+						throw 1;
+				}
+				catch (int i) {
+					cout << "Error ¹ " << i << "source or sink is not detected" << endl;
+				} 
 				if ((list_arcs.at(j).start == finish) && (list_arcs.at(j).finish == start)) {
 					fl_double_dir = 1;
 					string intermed = "H" + to_string(count_rev);
@@ -52,6 +89,7 @@ public:
 					list_arcs.push_back(temp_arc);
 					count_rev++;
 				}
+			}
 			if (!fl_double_dir) {
 				temp_arc.start = start;
 				temp_arc.finish = finish;
